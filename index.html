@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="id" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asesmen Sumatif Akhir Semester SKI Kelas VII - MTs Mu'allimin NU</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- html2pdf for downloading exam results -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        emerald: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#064e3b',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="h-full bg-slate-50 text-slate-800 font-sans antialiased flex flex-col justify-between">
+
+    <!-- Global App Header -->
+    <header class="bg-emerald-800 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div id="brand-logo-container" class="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center font-bold text-xl border border-white/20">
+                    <i class="fa-solid fa-mosque text-emerald-200"></i>
+                </div>
+                <div>
+                    <h1 id="brand-school-title" class="font-bold text-sm sm:text-base tracking-wide">MTs MU'ALLIMIN NU</h1>
+                    <p class="text-xs text-emerald-200">Asesmen Sumatif Akhir Semester (ASAS) Ganjil SKI Kelas VII</p>
+                </div>
+            </div>
+            <div id="header-user-info" class="hidden items-center space-x-3 text-xs sm:text-sm">
+                <span id="user-badge" class="bg-emerald-900/60 px-3 py-1.5 rounded-full border border-emerald-700/50"></span>
+                <button onclick="logout()" class="bg-emerald-700 hover:bg-emerald-600 text-white px-3 py-1.5 rounded-lg transition font-medium flex items-center space-x-1">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span class="hidden sm:inline">Keluar</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Dynamic Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+        <!-- VIEW 1: LOGIN SELECTION / AUTH -->
+        <div id="view-login" class="max-w-md mx-auto bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden mt-6">
+            <div class="bg-gradient-to-br from-emerald-800 to-emerald-900 p-6 text-white text-center relative">
+                <div class="w-16 h-16 bg-white/10 rounded-2xl mx-auto flex items-center justify-center text-3xl mb-3 border border-white/20 shadow-inner">
+                    <i class="fa-solid fa-book-quran text-emerald-200"></i>
+                </div>
+                <h2 class="text-xl font-bold">ASAS SKI KELAS VII</h2>
+                <p class="text-xs text-emerald-200 mt-1">Penyusun: Amirotul Kayyisah, S.Pd.</p>
+                <div class="absolute top-3 right-3">
+                    <span class="text-[10px] bg-emerald-700/80 px-2 py-0.5 rounded text-emerald-100 uppercase tracking-widest font-semibold">KKM: 80</span>
+                </div>
+            </div>
+
+            <div class="p-6 space-y-6">
+                <!-- Tab Selector -->
+                <div class="flex rounded-xl bg-slate-100 p-1">
+                    <button onclick="switchTab('student')" id="tab-btn-student" class="flex-1 py-2 text-xs sm:text-sm font-semibold rounded-lg transition bg-white text-emerald-800 shadow-sm">
+                        <i class="fa-solid fa-user-graduate mr-1"></i> Siswa
+                    </button>
+                    <button onclick="switchTab('admin')" id="tab-btn-admin" class="flex-1 py-2 text-xs sm:text-sm font-semibold rounded-lg transition text-slate-500 hover:text-slate-800">
+                        <i class="fa-solid fa-user-shield mr-1"></i> Guru / Admin
+                    </button>
+                </div>
+
+                <!-- Student Login Form -->
+                <div id="form-student" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1 uppercase tracking-wider">Nama Lengkap</label>
+                        <input type="text" id="student-name" placeholder="Contoh: Ahmad Zaidan" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1 uppercase tracking-wider">Kelas</label>
+                        <select id="student-class" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm bg-white">
+                            <option value="VII-A">VII-A</option>
+                            <option value="VII-B">VII-B</option>
+                            <option value="VII-C">VII-C</option>
+                            <option value="VII-D">VII-D</option>
+                            <option value="VII-E">VII-E</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1 uppercase tracking-wider">Nomor Presensi (Password)</label>
+                        <input type="number" id="student-number" placeholder="Contoh: 15" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm">
+                        <p class="text-[11px] text-slate-400 mt-1">Nomor presensi digunakan sebagai kata sandi login dan identitas.</p>
+                    </div>
+                    <button onclick="loginStudent()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-semibold py-3 rounded-xl transition shadow-lg shadow-emerald-700/20 text-sm flex items-center justify-center space-x-2">
+                        <span>Mulai Asesmen</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <!-- Admin Login Form -->
+                <div id="form-admin" class="space-y-4 hidden">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1 uppercase tracking-wider">Username Admin</label>
+                        <input type="text" id="admin-user-input" placeholder="admin" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1 uppercase tracking-wider">Password</label>
+                        <input type="password" id="admin-pass-input" placeholder="Standar: admin123" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm">
+                    </div>
+                    <button onclick="loginAdmin()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-semibold py-3 rounded-xl transition shadow-lg text-sm flex items-center justify-center space-x-2">
+                        <span>Masuk Panel Guru</span>
+                        <i class="fa-solid fa-lock-open"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 2: STUDENT EXAM DASHBOARD / INSTRUCTION -->
+        <div id="view-student-dashboard" class="max-w-3xl mx-auto bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8 hidden space-y-6">
+            <div class="border-b border-slate-100 pb-4">
+                <h2 class="text-xl font-bold text-slate-800">Ketentuan Asesmen Sumatif Akhir Semester</h2>
+                <p class="text-sm text-slate-500">Mata Pelajaran: Sejarah Kebudayaan Islam (SKI) Kelas VII</p>
+            </div>
+
+            <div class="bg-emerald-50/60 rounded-xl p-5 border border-emerald-100 space-y-3 text-sm text-emerald-900">
+                <div class="flex items-start space-x-3">
+                    <i class="fa-solid fa-circle-info text-emerald-600 mt-0.5"></i>
+                    <div>
+                        <span class="font-bold">Identitas Anda:</span> <span id="dash-name" class="font-medium"></span> (<span id="dash-class"></span>, No. <span id="dash-no"></span>)
+                    </div>
+                </div>
+                <div class="flex items-start space-x-3">
+                    <i class="fa-solid fa-clock text-emerald-600 mt-0.5"></i>
+                    <div>
+                        <span class="font-bold">Durasi Pengerjaan:</span> 60 Menit (Timer berjalan otomatis setelah tombol mulai diklik).
+                    </div>
+                </div>
+                <div class="flex items-start space-x-3">
+                    <i class="fa-solid fa-list-check text-emerald-600 mt-0.5"></i>
+                    <div>
+                        <span class="font-bold">Jumlah Soal:</span> 40 Soal (15 Pilihan Ganda, 10 Pilihan Ganda Kompleks, 10 Menjodohkan, 5 Uraian).
+                    </div>
+                </div>
+                <div class="flex items-start space-x-3">
+                    <i class="fa-solid fa-triangle-exclamation text-amber-600 mt-0.5"></i>
+                    <div>
+                        <span class="font-bold">Ketentuan Kesempatan:</span> Siswa diberi kesempatan mengerjakan maksimal <strong>2 kali</strong>. Sisa kesempatan Anda: <span id="remaining-attempts" class="font-bold text-emerald-700">2</span>.
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                <button onclick="startExam()" class="flex-1 bg-emerald-700 hover:bg-emerald-800 text-white font-semibold py-3 px-6 rounded-xl transition shadow-lg shadow-emerald-700/20 text-center flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-play"></i>
+                    <span>Mulai Mengerjakan Soal</span>
+                </button>
+                <button onclick="logout()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-3 px-6 rounded-xl transition text-center">
+                    Keluar
+                </button>
+            </div>
+        </div>
+
+        <!-- VIEW 3: EXAM INTERFACE -->
+        <div id="view-exam-room" class="hidden space-y-6">
+            <!-- Sticky Top Exam Meta & Timer Bar -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sticky top-16 z-40 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-emerald-100 text-emerald-800 rounded-xl flex items-center justify-center font-bold">
+                        <i class="fa-solid fa-pen-nib"></i>
+                    </div>
+                    <div>
+                        <h3 id="exam-student-title" class="font-bold text-sm text-slate-800"></h3>
+                        <p class="text-xs text-slate-500">ASAS Ganjil SKI Kelas VII MTs Mu'allimin NU</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="bg-amber-50 border border-amber-200 px-4 py-2 rounded-xl flex items-center space-x-2 text-amber-800 font-bold text-sm">
+                        <i class="fa-regular fa-clock"></i>
+                        <span id="timer-display">60:00</span>
+                    </div>
+                    <button onclick="confirmSubmitExam()" class="bg-emerald-700 hover:bg-emerald-800 text-white px-5 py-2 rounded-xl font-semibold text-sm transition shadow-md flex items-center space-x-2">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span>Selesai & Kumpulkan</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Exam Layout: Question Navigation Grid + Question Content -->
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                <!-- Question Main Card -->
+                <div class="lg:col-span-3 bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8 space-y-6">
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-4">
+                        <div class="flex items-center space-x-2">
+                            <span id="question-type-badge" class="px-3 py-1 bg-slate-100 text-slate-700 rounded-lg text-xs font-bold uppercase tracking-wider"></span>
+                            <span class="text-xs text-slate-400 font-medium">Soal No. <span id="current-q-num">1</span> dari 40</span>
+                        </div>
+                        <span id="question-level-badge" class="px-2.5 py-0.5 rounded text-[11px] font-bold uppercase"></span>
+                    </div>
+
+                    <!-- Stimulus Box -->
+                    <div id="stimulus-box" class="bg-slate-50 border-l-4 border-emerald-600 p-4 rounded-r-xl text-sm text-slate-700 space-y-2 hidden">
+                        <div class="text-[11px] font-bold text-emerald-800 uppercase tracking-wider flex items-center space-x-1">
+                            <i class="fa-solid fa-lightbulb"></i>
+                            <span>Stimulus / Wacana Kasus</span>
+                        </div>
+                        <p id="stimulus-text" class="leading-relaxed"></p>
+                    </div>
+
+                    <!-- Question Stem -->
+                    <div class="text-base font-semibold text-slate-800 leading-relaxed" id="question-stem"></div>
+
+                    <!-- Answer Options Container -->
+                    <div id="answer-options-container" class="space-y-3 pt-2">
+                        <!-- Dynamically populated options (MC, Complex MC, Matching, Essay) -->
+                    </div>
+
+                    <!-- Navigation Footer -->
+                    <div class="flex justify-between items-center pt-6 border-t border-slate-100">
+                        <button onclick="prevQuestion()" id="btn-prev" class="px-5 py-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 font-medium text-sm flex items-center space-x-2 transition disabled:opacity-40 disabled:cursor-not-allowed">
+                            <i class="fa-solid fa-arrow-left"></i>
+                            <span>Sebelumnya</span>
+                        </button>
+                        <button onclick="nextQuestion()" id="btn-next" class="px-6 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-medium text-sm flex items-center space-x-2 transition">
+                            <span>Berikutnya</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quick Navigation Drawer / Sidebar -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 space-y-4 h-fit">
+                    <div class="flex justify-between items-center">
+                        <h4 class="font-bold text-sm text-slate-800">Navigasi Soal</h4>
+                        <span class="text-xs text-slate-400" id="answered-counter">0 / 40 Dijawab</span>
+                    </div>
+                    <div id="q-nav-grid" class="grid grid-cols-5 gap-2 max-h-[450px] overflow-y-auto p-1">
+                        <!-- Dynamically generated numbered boxes -->
+                    </div>
+                    <div class="pt-3 border-t border-slate-100 text-[11px] text-slate-500 space-y-1">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-3 h-3 bg-emerald-600 rounded"></div>
+                            <span>Sudah Dijawab</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-3 h-3 bg-slate-200 rounded"></div>
+                            <span>Belum Dijawab</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 4: STUDENT RESULT & REPORT CARD -->
+        <div id="view-result" class="max-w-2xl mx-auto bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8 hidden space-y-6">
+            <div id="result-card-printable" class="space-y-6 bg-white p-2">
+                <div class="text-center space-y-2 border-b border-slate-100 pb-6">
+                    <div class="w-16 h-16 bg-emerald-100 text-emerald-800 rounded-2xl mx-auto flex items-center justify-center text-3xl font-bold">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-800">Hasil Asesmen Sumatif Akhir Semester</h2>
+                    <p class="text-sm text-slate-500">Mata Pelajaran: Sejarah Kebudayaan Islam (SKI) Kelas VII</p>
+                </div>
+
+                <div class="bg-slate-50 rounded-xl p-5 border border-slate-200 space-y-3">
+                    <div class="grid grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <span class="text-slate-400 block text-xs uppercase font-semibold">Nama Siswa</span>
+                            <span id="res-name" class="font-bold text-slate-800"></span>
+                        </div>
+                        <div>
+                            <span class="text-slate-400 block text-xs uppercase font-semibold">Kelas / No. Presensi</span>
+                            <span id="res-class-no" class="font-bold text-slate-800"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+                    <div class="bg-emerald-50 border border-emerald-100 rounded-2xl p-4">
+                        <span class="text-xs font-semibold text-emerald-800 uppercase block">Nilai Akhir</span>
+                        <span id="res-score" class="text-3xl font-extrabold text-emerald-700 mt-1 block">0</span>
+                    </div>
+                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4">
+                        <span class="text-xs font-semibold text-slate-500 uppercase block">Status Kelulusan</span>
+                        <span id="res-status" class="text-lg font-bold mt-1 block"></span>
+                    </div>
+                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4">
+                        <span class="text-xs font-semibold text-slate-500 uppercase block">Ketuntasan KKM</span>
+                        <span class="text-lg font-bold text-slate-700 mt-1 block">80</span>
+                    </div>
+                </div>
+
+                <div id="essay-review-section" class="space-y-3 hidden border-t border-slate-100 pt-4">
+                    <h4 class="font-bold text-sm text-slate-800">Catatan Penilaian Uraian</h4>
+                    <p class="text-xs text-slate-500">Soal uraian telah dinilai otomatis/sistem sesuai kunci jawaban relevan.</p>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-3 pt-4 border-t border-slate-100">
+                <button onclick="downloadResultPDF()" class="flex-1 bg-emerald-700 hover:bg-emerald-800 text-white font-semibold py-3 px-6 rounded-xl transition shadow-lg shadow-emerald-700/20 text-center flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-download"></i>
+                    <span>Download Bukti Nilai (PDF)</span>
+                </button>
+                <button onclick="logout()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-3 px-6 rounded-xl transition text-center">
+                    Keluar / Selesai
+                </button>
+            </div>
+        </div>
+
+        <!-- VIEW 5: ADMIN / TEACHER DASHBOARD -->
+        <div id="view-admin-dashboard" class="hidden space-y-6">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <div>
+                    <span class="bg-slate-100 text-slate-700 px-3 py-1 rounded-lg text-xs font-bold uppercase">Panel Guru / Admin</span>
+                    <h2 class="text-xl font-bold text-slate-800 mt-1">Manajemen Asesmen SKI Kelas VII</h2>
+                    <p class="text-xs text-slate-500">Penyusun: Amirotul Kayyisah, S.Pd. | KKM: 80</p>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="adminActionTestAsStudent()" class="bg-emerald-700 hover:bg-emerald-800 text-white px-4 py-2 rounded-xl text-sm font-semibold transition flex items-center space-x-2 shadow">
+                        <i class="fa-solid fa-user-gear"></i>
+                        <span>Uji Coba Soal (Sebagai Siswa)</span>
+                    </button>
+                    <button onclick="openAdminSettingsModal()" class="bg-slate-800 hover:bg-slate-900 text-white px-4 py-2 rounded-xl text-sm font-semibold transition flex items-center space-x-2 shadow">
+                        <i class="fa-solid fa-gear"></i>
+                        <span>Ganti Password & Logo</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Admin Stats Overview -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                    <span class="text-xs font-semibold text-slate-400 uppercase">Total Siswa Mengerjakan</span>
+                    <h3 id="stat-total-students" class="text-2xl font-bold text-slate-800 mt-1">0</h3>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                    <span class="text-xs font-semibold text-slate-400 uppercase">Rata-Rata Nilai Kelas</span>
+                    <h3 id="stat-avg-score" class="text-2xl font-bold text-emerald-700 mt-1">0</h3>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                    <span class="text-xs font-semibold text-slate-400 uppercase">Jumlah Soal Tersedia</span>
+                    <h3 class="text-2xl font-bold text-slate-800 mt-1">40 Soal</h3>
+                </div>
+            </div>
+
+            <!-- Admin Tabs Navigation -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="flex border-b border-slate-100 bg-slate-50/50 p-2 gap-2">
+                    <button onclick="switchAdminTab('scores')" id="adm-tab-scores" class="px-4 py-2 text-xs sm:text-sm font-semibold rounded-xl bg-white text-emerald-800 shadow-sm transition">
+                        <i class="fa-solid fa-chart-line mr-1"></i> Rekap Nilai Siswa
+                    </button>
+                    <button onclick="switchAdminTab('questions')" id="adm-tab-questions" class="px-4 py-2 text-xs sm:text-sm font-semibold rounded-xl text-slate-500 hover:text-slate-800 transition">
+                        <i class="fa-solid fa-list-check mr-1"></i> Bank Soal & Editor (40 Soal)
+                    </button>
+                </div>
+
+                <!-- Tab Content: Scores -->
+                <div id="adm-content-scores" class="p-6 space-y-4">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-bold text-base text-slate-800">Daftar Hasil Nilai Siswa</h3>
+                        <button onclick="exportScoresCSV()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-2 rounded-lg transition flex items-center space-x-1">
+                            <i class="fa-solid fa-file-excel text-emerald-600"></i>
+                            <span>Ekspor CSV</span>
+                        </button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-sm">
+                            <thead>
+                                <tr class="bg-slate-50 text-slate-500 uppercase text-[11px] tracking-wider border-b border-slate-200">
+                                    <th class="p-3">No</th>
+                                    <th class="p-3">Nama Siswa</th>
+                                    <th class="p-3">Kelas</th>
+                                    <th class="p-3">No. Presensi</th>
+                                    <th class="p-3">Nilai</th>
+                                    <th class="p-3">Status</th>
+                                    <th class="p-3">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="scores-table-body" class="divide-y divide-slate-100 text-slate-700">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tab Content: Questions Editor -->
+                <div id="adm-content-questions" class="p-6 space-y-4 hidden">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="font-bold text-base text-slate-800">Bank Soal ASAS SKI Kelas VII</h3>
+                            <p class="text-xs text-slate-500">Edit pertanyaan, pilihan jawaban, atau kunci jawaban sesuai kebutuhan.</p>
+                        </div>
+                        <span class="text-xs font-semibold bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full">Total 40 Soal</span>
+                    </div>
+                    <div id="admin-questions-list" class="space-y-4 max-h-[600px] overflow-y-auto pr-2">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Admin Settings Modal (Password & Logo) -->
+    <div id="admin-settings-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-6 shadow-2xl">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-4">
+                <h3 class="font-bold text-base text-slate-800">Pengaturan Admin & Logo</h3>
+                <button onclick="closeAdminSettingsModal()" class="text-slate-400 hover:text-slate-600">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1 uppercase">Ganti Password Admin</label>
+                    <input type="password" id="new-admin-pass" placeholder="Password Baru" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1 uppercase">URL Logo Lembaga / Sekolah</label>
+                    <input type="text" id="new-logo-url" placeholder="https://example.com/logo.png" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                    <p class="text-[11px] text-slate-400 mt-1">Kosongkan jika ingin menggunakan logo default.</p>
+                </div>
+            </div>
+            <div class="flex justify-end space-x-3 pt-4 border-t border-slate-100">
+                <button onclick="closeAdminSettingsModal()" class="px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100 text-sm font-medium">Batal</button>
+                <button onclick="saveAdminSettings()" class="px-5 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-sm font-medium shadow">Simpan Perubahan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Notification Modal (No alert() used) -->
+    <div id="app-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 text-center space-y-4 shadow-2xl">
+            <div id="modal-icon-container" class="w-12 h-12 rounded-full mx-auto flex items-center justify-center text-xl font-bold bg-emerald-100 text-emerald-700">
+                <i id="modal-icon" class="fa-solid fa-check"></i>
+            </div>
+            <h3 id="modal-title" class="font-bold text-base text-slate-800">Pemberitahuan</h3>
+            <p id="modal-message" class="text-sm text-slate-600 leading-relaxed"></p>
+            <button onclick="closeModal()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-semibold py-2.5 rounded-xl text-sm transition">
+                OK
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-4 mt-8 text-center text-xs text-slate-500">
+        <p>Asesmen Sumatif Akhir Semester (ASAS) Ganjil SKI Kelas VII • MTs Mu'allimin NU</p>
+        <p class="mt-1">Penyusun: Amirotul Kayyisah, S.Pd. | KKM: 80</p>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // --- APPLICATION DATA & 40 QUESTIONS BANK ---
+        // Covering Bab 1, Bab 2, and Bab 3 (LOTS, MOTS, HOTS, Stimulus-based)
+        const defaultQuestions = [
+            // PILIHAN GANDA (1 - 15)
+            {
+                id: 1, type: "mc", level: "LOTS", bab: 1,
+                stimulus: "Masyarakat Arab Jahiliyah sebelum kedatangan Islam hidup dalam tradisi kesukuan (kabilah) yang kuat dan sering berperang antar suku karena masalah sepele.",
+                question: "Sebelum Islam datang, Jazirah Arab dikenal dengan sebutan zaman Jahiliyah. Arti kata Jahiliyah adalah...",
+                options: ["Zaman keemasan ilmu pengetahuan", "Zaman kebodohan atau belum mengenal agama tauhid", "Zaman kemakmuran ekonomi yang merata", "Zaman kepemimpinan raja-raja besar"],
+                answer: 1 // index 1
+            },
+            {
+                id: 2, type: "mc", level: "MOTS", bab: 1,
+                stimulus: "Bangsa Arab Jahiliyah memiliki kebiasaan buruk seperti menyembah berhala (berhala Latta, Uzza, Manat), mengubur bayi perempuan hidup-hidup, berjudi, dan merampok.",
+                question: "Salah satu faktor utama bangsa Arab menyembah berhala menurut sejarah adalah karena pengaruh dari...",
+                options: ["Ajaran Nabi Ibrahim yang disempurnakan", "Amr bin Luhay yang membawa berhala dari Syam ke Mekkah", "Perintah langsung dari penguasa Romawi", "Kesepakatan seluruh kabilah di Yaman"],
+                answer: 1
+            },
+            {
+                id: 3, type: "mc", level: "HOTS", bab: 1,
+                stimulus: "Nabi Muhammad SAW memulai dakwahnya di Makkah dengan dua metode: sembunyi-sembunyi (sirriyah) selama kurang lebih 3 tahun kepada keluarga terdekat, lalu secara terang-terangan (jahriyah) kepada masyarakat luas setelah turun wahyu surat Al-Hijr ayat 94.",
+                question: "Mengapa Nabi Muhammad SAW memilih strategi dakwah secara sembunyi-sembunyi pada periode awal di Makkah?",
+                options: [
+                    "Karena jumlah pengikut sudah mencapai ribuan orang",
+                    "Karena kaum Quraisy memiliki kekuatan dominan dan belum siap menerima ajaran tauhid",
+                    "Karena diperintahkan untuk menghindari perang fisik secara langsung",
+                    "Karena umat Islam berlindung di istana raja Habasyah"
+                ],
+                answer: 1
+            },
+            {
+                id: 4, type: "mc", level: "MOTS", bab: 1,
+                stimulus: "Keluarga terdekat Nabi Muhammad SAW yang pertama kali masuk Islam (As-Sabiqunal Awwalun) dari golongan wanita adalah Siti Khadijah, dari anak-anak adalah Ali bin Abi Thalib, dan dari sahabat dewasa adalah Abu Bakar Ash-Shiddiq.",
+                question: "Sahabat terdekat Nabi Muhammad SAW yang terkenal dermawan dan membebaskan budak seperti Bilal bin Rabah adalah...",
+                options: ["Utsman bin Affan", "Umar bin Khattab", "Abu Bakar Ash-Shiddiq", "Zaid bin Haritsah"],
+                answer: 2
+            },
+            {
+                id: 5, type: "mc", level: "LOTS", bab: 1,
+                stimulus: "Dakwah terang-terangan Nabi Muhammad di Bukit Shafa mendapat penolakan keras dan cemoohan dari paman beliau sendiri, yaitu Abu Lahab.",
+                question: "Paman Nabi Muhammad SAW yang paling gigih menentang dakwah Islam dan diabadikan dalam Al-Qur'an surat Al-Lahab adalah...",
+                options: ["Abu Thalib", "Abbas bin Abdul Muthalib", "Abu Lahab (Abdul Uzza)", "Hamzah bin Abdul Muthalib"],
+                answer: 2
+            },
+            {
+                id: 6, type: "mc", level: "HOTS", bab: 1,
+                stimulus: "Tekanan kaum Quraisy terhadap umat Islam semakin kejam setelah dakwah dilakukan secara terbuka. Nabi kemudian memerintahkan sebagian sahabat untuk hijrah gelombang pertama ke Habasyah (Ethiopia) yang dipimpin oleh Raja Najasyi yang adil.",
+                question: "Keputusan Nabi Muhammad SAW mengirim sahabat hijrah ke Habasyah menunjukkan strategi kepemimpinan yang berorientasi pada...",
+                options: ["Ekspansi kekuasaan militer Islam ke Afrika", "Penyelamatan jiwa umat dari penganiayaan sambil mencari suaka politik yang aman", "Perdagangan bebas dengan kerajaan Kristen", "Penyebaran pengaruh suku Quraisy di luar negeri"],
+                answer: 1
+            },
+            {
+                id: 7, type: "mc", level: "LOTS", bab: 2,
+                stimulus: "Sebelum Nabi Muhammad hijrah, kota Madinah bernama Yatsrib dan dihuni oleh berbagai kabilah Arab (Aus dan Khazraj) serta beberapa kabilah Yahudi (Bani Qainuqa, Bani Nadhir, Bani Qurhza).",
+                question: "Sebelum kedatangan Islam, kondisi sosial masyarakat Yatsrib sering diwarnai oleh...",
+                options: ["Persatuan yang sangat kuat antar suku", "Konflik berkepanjangan yang diadu domba oleh kaum Yahudi antara suku Aus dan Khazraj", "Kemandirian ekonomi tanpa bantuan luar", "Pemerintahan monarki yang dipimpin satu raja"],
+                answer: 1
+            },
+            {
+                id: 8, type: "mc", level: "MOTS", bab: 2,
+                stimulus: "Peristiwa hijrah Nabi Muhammad SAW dari Makkah ke Madinah bukan sekadar pelarian fisik, melainkan tonggak sejarah besar awal berdirinya peradaban Islam yang merdeka.",
+                question: "Tahun hijrahnya Nabi Muhammad SAW dari Makkah ke Madinah kemudian ditetapkan sebagai awal perhitungan Kalender Hijriyah pada masa kekhalifahan...",
+                options: ["Abu Bakar Ash-Shiddiq", "Umar bin Khattab", "Utsman bin Affan", "Ali bin Abi Thalib"],
+                answer: 1
+            },
+            {
+                id: 9, type: "mc", level: "HOTS", bab: 2,
+                stimulus: "Setibanya di Madinah, langkah pertama yang dilakukan Nabi Muhammad SAW adalah membangun Masjid (Masjid Nabawi), mempersaudarakan kaum Muhajirin dan Anshar, serta membuat Piagam Madinah (Mitsaq Madinah).",
+                question: "Apa substansi utama dari Piagam Madinah yang digagas oleh Nabi Muhammad SAW dalam membangun masyarakat majemuk?",
+                options: [
+                    "Pengusiran seluruh umat selain Islam dari kota Madinah",
+                    "Penyamaan hak dan kewajiban serta kebebasan beragama bagi seluruh penduduk Madinah termasuk Yahudi",
+                    "Monopoli perdagangan oleh kaum Muhajirin",
+                    "Pembentukan undang-undang militer wajib bagi seluruh pemuda"
+                ],
+                answer: 1
+            },
+            {
+                id: 10, type: "mc", level: "LOTS", bab: 2,
+                stimulus: "Kaum Muslimin penduduk asli Madinah yang menyambut dan menolong kaum Muhajirin dari Makkah dengan penuh keikhlasan disebut sebagai...",
+                options: ["Kaum Muhajirin", "Kaum Anshar", "Kaum An-Nusrah", "Ahli Suffah"],
+                answer: 1
+            },
+            {
+                id: 11, type: "mc", level: "MOTS", bab: 3,
+                stimulus: "Setelah wafatnya Nabi Muhammad SAW, kepemimpinan umat Islam dilanjutkan oleh para Khulafaurrasyidin secara estafet dengan sistem musyawarah.",
+                question: "Urutan yang benar para Khulafaurrasyidin memimpin umat Islam adalah...",
+                options: [
+                    "Abu Bakar, Umar, Utsman, Ali",
+                    "Umar, Abu Bakar, Utsman, Ali",
+                    "Abu Bakar, Utsman, Umar, Ali",
+                    "Ali, Umar, Utsman, Abu Bakar"
+                ],
+                answer: 0
+            },
+            {
+                id: 12, type: "mc", level: "LOTS", bab: 3,
+                stimulus: "Abu Bakar Ash-Shiddiq diberi gelar Ash-Shiddiq karena beliau adalah orang yang pertama kali membenarkan peristiwa Isra' Mi'raj tanpa ragu.",
+                question: "Kebijakan penting apa yang diambil oleh Khalifah Abu Bakar Ash-Shiddiq pada awal masa pemerintahannya untuk mengatasi kekacauan dalam negeri?",
+                options: [
+                    "Mengirim ekspedisi ke Konstantinopel",
+                    "Memerangi kaum murtad, nabi palsu, dan orang yang enggan membayar zakat",
+                    "Membangun armada angkatan laut Islam",
+                    "Membuat mata uang dinar dan dirham resmi"
+                ],
+                answer: 1
+            },
+            {
+                id: 13, type: "mc", level: "MOTS", bab: 3,
+                stimulus: "Umar bin Khattab dikenal dengan julukan 'Amirul Mukminin' serta ketegasannya dalam menegakkan keadilan dan perluasan wilayah Islam (futuhat al-islamiyah).",
+                question: "Salah satu kontribusi monumental Khalifah Umar bin Khattab dalam bidang administrasi pemerintahan adalah...",
+                options: [
+                    "Pembentukan lembaga Baitul Mal dan pembagian wilayah administratif (provinsi) serta penggajian pegawai",
+                    "Kodifikasi mushaf Al-Qur'an resmi (Mushaf Utsmani)",
+                    "Pembangunan benteng pertahanan di Kuffah dan Bashrah",
+                    "Perang saudara Shiffin dan Jamal"
+                ],
+                answer: 0
+            },
+            {
+                id: 14, type: "mc", level: "HOTS", bab: 3,
+                stimulus: "Utsman bin Affan berasal dari kaum bangsawan Quraisy yang sangat dermawan. Ia membeli sumur Ruma dari seorang Yahudi untuk disedekahkan kepada seluruh rakyat Madinah yang kekurangan air.",
+                question: "Prestasi terbesar Khalifah Utsman bin Affan yang sangat krusial bagi persatuan umat Islam hingga saat ini adalah...",
+                options: [
+                    "Perluasan wilayah sampai ke Samarkand",
+                    "Standarisasi dan kodifikasi Al-Qur'an (Mushaf Utsmani) untuk menyeragamkan bacaan umat Islam",
+                    "Pembentukan dewan penasihat hukum Islam",
+                    "Pembuatan kalender Hijriyah resmi"
+                ],
+                answer: 1
+            },
+            {
+                id: 15, type: "mc", level: "LOTS", bab: 3,
+                stimulus: "Ali bin Abi Thalib adalah sepupu sekaligus menantu Nabi Muhammad SAW yang terkenal dengan kecerdasan, keberanian, dan keluasan ilmunya.",
+                question: "Gelar kehormatan yang sering disematkan kepada Ali bin Abi Thalib atas keberaniannya di medan perang adalah...",
+                options: ["Asadullah (Singa Allah)", "Al-Faruq (Pembeda antara hak dan batil)", "Dzu al-Nurain (Pemilik dua cahaya)", "Sayyidina wa Maulana"],
+                answer: 0
+            },
+
+            // PILIHAN GANDA KOMPLEKS (16 - 25) - Jawaban benar lebih dari satu
+            {
+                id: 16, type: "complex", level: "MOTS", bab: 1,
+                stimulus: "Kehidupan masyarakat Arab sebelum Islam diwarnai tradisi jahiliyah, namun mereka juga memiliki beberapa nilai luhur seperti dermawan, memuliakan tamu, dan memegang teguh janji.",
+                question: "Pilih dua hal yang merupakan kebiasaan buruk masyarakat Arab Jahiliyah sebelum Islam! (Pilih dua jawaban benar)",
+                options: [
+                    "Menyembah patung berhala di sekitar Ka'bah",
+                    "Menjunjung tinggi kesetaraan gender",
+                    "Mengubur bayi perempuan hidup-hidup karena takut miskin",
+                    "Mengembangkan sistem demokrasi parlementer"
+                ],
+                answer: [0, 2]
+            },
+            {
+                id: 17, type: "complex", level: "HOTS", bab: 1,
+                stimulus: "Strategi dakwah Nabi Muhammad di Makkah menghadapi tantangan berat berupa boikot ekonomi dan sosial terhadap Bani Hasyim dan Bani Muthalib selama 3 tahun.",
+                question: "Pilih dua strategi utama yang ditempuh Nabi Muhammad SAW pada periode dakwah di Makkah! (Pilih dua jawaban benar)",
+                options: [
+                    "Dakwah secara sembunyi-sembunyi di awal kenabian",
+                    "Dakwah terang-terangan kepada keluarga dan penduduk Makkah",
+                    "Membangun angkatan bersenjata yang kuat untuk menaklukkan Makkah sejak tahun pertama",
+                    "Membentuk pemerintahan kerajaan mutlak"
+                ],
+                answer: [0, 1]
+            },
+            {
+                id: 18, type: "complex", level: "MOTS", bab: 1,
+                stimulus: "Beberapa sahabat awal masuk Islam mengalami penyiksaan berat dari kaum Quraisy, seperti Bilal bin Rabah dan keluarga Yasir.",
+                question: "Pilih dua tokoh dari golongan As-Sabiqunal Awwalun (pemeluk Islam pertama) yang terkenal dalam sejarah! (Pilih dua jawaban benar)",
+                options: [
+                    "Siti Khadijah binti Khuwailid",
+                    "Abu Jahal bin Hisyam",
+                    "Abu Bakar Ash-Shiddiq",
+                    "Abu Lahab bin Abdul Muthalib"
+                ],
+                answer: [0, 2]
+            },
+            {
+                id: 19, type: "complex", level: "MOTS", bab: 2,
+                stimulus: "Hijrah ke Madinah menandai babak baru peradaban Islam yang damai dan berdaulat.",
+                question: "Pilih dua faktor utama yang mendorong Nabi Muhammad SAW dan umat Islam hijrah ke Madinah! (Pilih dua jawaban benar)",
+                options: [
+                    "Tekanan dan siksaan yang semakin kejam dari kaum kafir Quraisy Makkah",
+                    "Undangan penduduk Yatsrib (Suku Aus dan Khazraj) melalui Perjanjian Aqabah",
+                    "Keinginan untuk menguasai jalur perdagangan Romawi secara paksa",
+                    "Perintah mencari tambang emas di wilayah utara"
+                ],
+                answer: [0, 1]
+            },
+            {
+                id: 20, type: "complex", level: "HOTS", bab: 2,
+                stimulus: "Piagam Madinah merupakan konstitusi tertulis pertama di dunia yang mengatur kehidupan masyarakat plural di Madinah.",
+                question: "Pilih dua isi pokok atau prinsip penting dalam Piagam Madinah! (Pilih dua jawaban benar)",
+                options: [
+                    "Kebebasan beragama bagi seluruh golongan termasuk kaum Yahudi",
+                    "Kewajiban saling membela dan mempertahankan kota Madinah dari serangan luar",
+                    "Dominasi mutlak satu kabilah atas kabilah lainnya",
+                    "Larangan melakukan kegiatan perdagangan antar suku"
+                ],
+                answer: [0, 1]
+            },
+            {
+                id: 21, type: "complex", level: "MOTS", bab: 2,
+                stimulus: "Persaudaraan (Ukhuwah) antara kaum Muhajirin dan Anshar di Madinah menjadi fondasi kokoh persatuan umat.",
+                question: "Pilih dua bentuk pertolongan kaum Anshar kepada kaum Muhajirin di Madinah! (Pilih dua jawaban benar)",
+                options: [
+                    "Memberikan tempat tinggal dan berbagi harta kekayaan",
+                    "Mengusir penduduk asli Madinah lainnya",
+                    "Membantu saudara seiman dalam merintis kehidupan baru di Madinah",
+                    "Menjadikan kaum Muhajirin sebagai pekerja paksa"
+                ],
+                answer: [0, 2]
+            },
+            {
+                id: 22, type: "complex", level: "MOTS", bab: 3,
+                stimulus: "Khalifah Abu Bakar Ash-Shiddiq memimpin umat Islam pada masa transisi yang sangat kritis setelah wafatnya Rasulullah SAW.",
+                question: "Pilih dua kebijakan penting masa kekhalifahan Abu Bakar Ash-Shiddiq! (Pilih dua jawaban benar)",
+                options: [
+                    "Memerangi kelompok pembangkang zakat dan nabi palsu",
+                    "Memelopori pengumpulan lembaran-lembaran ayat Al-Qur'an (Kodifikasi Al-Qur'an pertama)",
+                    "Membangun istana megah untuk kediaman khalifah",
+                    "Memindahkan ibu kota negara Islam ke Persia"
+                ],
+                answer: [0, 1]
+            },
+            {
+                id: 23, type: "complex", level: "HOTS", bab: 3,
+                stimulus: "Masa pemerintahan Umar bin Khattab ditandai dengan perluasan wilayah Islam yang sangat pesat ke wilayah Syam, Mesir, dan Persia.",
+                    question: "Pilih dua prestasi atau kebijakan pemerintahan Khalifah Umar bin Khattab! (Pilih dua jawaban benar)",
+                options: [
+                    "Membentuk lembaga Baitul Mal untuk keuangan negara",
+                    "Menetapkan permulaan tahun Kalender Hijriyah",
+                    "Membubarkan seluruh tentara Islam",
+                    "Menghapuskan sistem musyawarah dalam pengangkatan pemimpin"
+                ],
+                answer: [0, 1]
+            },
+            {
+                id: 24, type: "complex", level: "MOTS", bab: 3,
+                stimulus: "Utsman bin Affan dikenal sebagai saudagar kaya yang dermawan serta berjasa besar dalam penyebaran mushaf Al-Qur'an ke berbagai wilayah.",
+                question: "Pilih dua fakta penting mengenai masa kekhalifahan Utsman bin Affan! (Pilih dua jawaban benar)",
+                options: [
+                    "Penggandaan dan penyebaran Mushaf Utsmani ke berbagai pusat provinsial Islam",
+                    "Pembangunan armada angkatan laut pertama bagi kaum muslimin",
+                    "Pemberlakuan pajak tunggal bagi seluruh umat non-Islam di dunia",
+                    "Pemindahan pusat pemerintahan secara permanen ke Afrika"
+                ],
+                answer: [0, 1]
+            },
+            {
+                id: 25, type: "complex", level: "MOTS", bab: 3,
+                stimulus: "Ali bin Abi Thalib menghadapi berbagai tantangan internal yang pelik selama masa pemerintahannya sebagai khalifah keempat.",
+                question: "Pilih dua peristiwa besar yang terjadi pada masa kekhalifahan Ali bin Abi Thalib! (Pilih dua jawaban benar)",
+                options: [
+                    "Terjadinya Perang Jamal (Unta) dan Perang Shiffin",
+                    "Pemindahan ibu kota kekhalifahan dari Madinah ke Kuffah",
+                    "Penaklukan benua Eropa secara keseluruhan",
+                    "Penyusunan kamus bahasa Arab pertama"
+                ],
+                answer: [0, 1]
+            },
+
+            // SOAL MENJODOHKAN (26 - 35)
+            // Disimpan dengan format statement dan pilihan pasangan
+            {
+                id: 26, type: "matching", level: "LOTS", bab: 1,
+                stimulus: "Tokoh-tokoh penting pada masa awal Islam di Makkah.",
+                question: "Jodohkan tokoh berikut dengan perannya yang tepat pada masa dakwah di Makkah:",
+                pairs: [
+                    { premise: "Siti Khadijah", target: "Istri Nabi yang pertama kali beriman dan mendampingi perjuangan" },
+                    { premise: "Abu Thalib", target: "Paman Nabi yang melindungi dakwah secara fisik namun belum masuk Islam" },
+                    { premise: "Bilal bin Rabah", target: "Budak yang disiksa tuannya karena mempertahankan keimanan tauhid" }
+                ],
+                // Target list untuk dropdown siswa
+                options: [
+                    "Istri Nabi yang pertama kali beriman dan mendampingi perjuangan",
+                    "Paman Nabi yang melindungi dakwah secara fisik namun belum masuk Islam",
+                    "Budak yang disiksa tuannya karena mempertahankan keimanan tauhid"
+                ],
+                answer: [0, 1, 2] // kunci urutan pasangan benar
+            },
+            {
+                id: 27, type: "matching", level: "MOTS", bab: 1,
+                stimulus: "Metode dan tempat dakwah Rasulullah SAW di Makkah.",
+                question: "Jodohkan istilah berikut dengan penjelasannya dalam sejarah dakwah:",
+                pairs: [
+                    { premise: "Sirriyah", target: "Metode dakwah secara sembunyi-sembunyi kepada kerabat terdekat" },
+                    { premise: "Jahriyah", target: "Metode dakwah secara terang-terangan kepada masyarakat luas" },
+                    { premise: "Darul Arqam", target: "Rumah Arqam bin Abil Arqam yang dijadikan pusat pembinaan awal muslim" }
+                ],
+                options: [
+                    "Metode dakwah secara sembunyi-sembunyi kepada kerabat terdekat",
+                    "Metode dakwah secara terang-terangan kepada masyarakat luas",
+                    "Rumah Arqam bin Abil Arqam yang dijadikan pusat pembinaan awal muslim"
+                ],
+                answer: [0, 1, 2]
+            },
+            {
+                id: 28, type: "matching", level: "LOTS", bab: 2,
+                stimulus: "Kota Yatsrib sebelum dan sesudah kedatangan Islam.",
+                question: "Jodohkan unsur masyarakat di Madinah berikut dengan definisinya:",
+                pairs: [
+                    { premise: "Kaum Muhajirin", target: "Muslim Makkah yang hijrah bersama Nabi ke Madinah" },
+                    { premise: "Kaum Anshar", target: "Penduduk asli Madinah dari suku Aus dan Khazraj yang menolong Islam" },
+                    { premise: "Bani Nadhir", target: "Salah satu kabilah Yahudi yang tinggal di sekitar kota Madinah" }
+                ],
+                options: [
+                    "Muslim Makkah yang hijrah bersama Nabi ke Madinah",
+                    "Penduduk asli Madinah dari suku Aus dan Khazraj yang menolong Islam",
+                    "Salah satu kabilah Yahudi yang tinggal di sekitar kota Madinah"
+                ],
+                answer: [0, 1, 2]
+            },
+            {
+                id: 29, type: "matching", level: "MOTS", bab: 2,
+                stimulus: "Pilar-pilar peradaban yang dibangun Nabi di Madinah.",
+                question: "Jodohkan program pembangunan Nabi Muhammad SAW di Madinah dengan tujuannya:",
+                pairs: [
+                    { premise: "Pembangunan Masjid Nabawi", target: "Pusat kegiatan ibadah, musyawarah, dan pembinaan umat" },
+                    { premise: "Ukhuwah Islamiyah", target: "Mempersaudarakan kaum Muhajirin dan kaum Anshar" },
+                    { premise: "Piagam Madinah", target: "Konstitusi perdamaian antar seluruh elemen masyarakat Madinah" }
+                ],
+                options: [
+                    "Pusat kegiatan ibadah, musyawarah, dan pembinaan umat",
+                    "Mempersaudarakan kaum Muhajirin dan kaum Anshar",
+                    "Konstitusi perdamaian antar seluruh elemen masyarakat Madinah"
+                ],
+                answer: [0, 1, 2]
+            },
+            {
+                id: 30, type: "matching", level: "LOTS", bab: 3,
+                stimulus: "Profil Khulafaurrasyidin.",
+                question: "Jodohkan para khalifah dengan julukan atau gelarnya:",
+                pairs: [
+                    { premise: "Abu Bakar", target: "Ash-Shiddiq (Yang membenarkan)" },
+                    { premise: "Umar bin Khattab", target: "Al-Faruq (Pembeda antara hak dan batil)" },
+                    { premise: "Utsman bin Affan", target: "Dzu al-Nurain (Pemilik dua cahaya)" }
+                ],
+                options: [
+                    "Ash-Shiddiq (Yang membenarkan)",
+                    "Al-Faruq (Pembeda antara hak dan batil)",
+                    "Dzu al-Nurain (Pemilik dua cahaya)"
+                ],
+                answer: [0, 1, 2]
+            },
+            {
+                id: 31, type: "matching", level: "MOTS", bab: 3,
+                stimulus: "Kontribusi dan prestasi Khalifah Abu Bakar.",
+                question: "Jodohkan kebijakan Khalifah Abu Bakar dengan masalah yang dihadapinya:",
+                pairs: [
+                    { premise: "Perang Riddah", target: "Menghadapi kelompok yang murtad dan enggan membayar zakat" },
+                    { premise: "Pengumpulan Al-Qur'an", target: "Menyelamatkan ayat Al-Qur'an karena banyak penghafal gugur di medan perang" },
+                    { premise: "Ekspedisi Usamah bin Zaid", target: "Melanjutkan misi militer yang sempat dipersiapkan menjelang wafatnya Nabi" }
+                ],
+                options: [
+                    "Menghadapi kelompok yang murtad dan enggan membayar zakat",
+                    "Menyelamatkan ayat Al-Qur'an karena banyak penghafal gugur di medan perang",
+                    "Melanjutkan misi militer yang sempat dipersiapkan menjelang wafatnya Nabi"
+                ],
+                answer: [0, 1, 2]
+            },
+            {
+                id: 32, type: "matching", level: "MOTS", bab: 3,
+                stimulus: "Administrasi pemerintahan Khalifah Umar bin Khattab.",
+                question: "Jodohkan bidang pemerintahan Umar dengan inovasinya:",
+                pairs: [
+                    { premise: "Diwan al-Jund", target: "Lembaga pencatatan administrasi militer dan gaji tentara" },
+                    { premise: "Penetapan Kalender", target: "Menjadikan peristiwa hijrah sebagai awal tarikh Islam" },
+                    { premise: "Pembagian Wilayah", target: "Membentuk provinsi-provinsi dengan mengangkat gubernur (Wali)" }
+                ],
+                options: [
+                    "Lembaga pencatatan administrasi militer dan gaji tentara",
+                    "Menjadikan peristiwa hijrah sebagai awal tarikh Islam",
+                    "Membentuk provinsi-provinsi dengan mengangkat gubernur (Wali)"
+                ],
+                answer: [0, 1, 2]
+            },
+            {
+                id: 33, type: "matching", level: "MOTS", bab: 3,
+                stimulus: "Kebijakan maritim dan sosial Utsman bin Affan.",
+                question: "Jodohkan kebijakan Khalifah Utsman dengan dampaknya:",
+                pairs: [
+                    { premise: "Pembuatan Angkatan Laut", target: "Memperkuat pertahanan wilayah maritim Islam dari serangan Bizantium" },
+                    { premise: "Kodifikasi Mushaf Utsmani", target: "Mencegah perpecahan umat akibat perbedaan dialek bacaan Al-Qur'an" },
+                    { premise: "Renovasi Masjid Nabawi", target: "Memperluas daya tampung jemaah seiring bertambahnya umat Islam" }
+                ],
+                options: [
+                    "Memperkuat pertahanan wilayah maritim Islam dari serangan Bizantium",
+                    "Mencegah perpecahan umat akibat perbedaan dialek bacaan Al-Qur'an",
+                    "Memperluas daya tampung jemaah seiring bertambahnya umat Islam"
+                ],
+                answer: [0, 1, 2]
+            },
+            {
+                id: 34, type: "matching", level: "MOTS", bab: 3,
+                stimulus: "Kepemimpinan Khalifah Ali bin Abi Thalib.",
+                question: "Jodohkan kebijakan atau peristiwa masa Ali bin Abi Thalib dengan keterangannya:",
+                pairs: [
+                    { premise: "Pemindahan Ibu Kota", target: "Dari Madinah dipindahkan ke Kuffah untuk strategi stabilitas wilayah" },
+                    { premise: "Perang Shiffin", target: "Konflik politik dengan pihak Muawiyah bin Abu Sufyan di tepi Sungai Efrat" },
+                    { premise: "Kelompok Khawarij", target: "Aliran yang keluar dari barisan Ali setelah peristiwa Tahkim (arbitrase)" }
+                ],
+                options: [
+                    "Dari Madinah dipindahkan ke Kuffah untuk strategi stabilitas wilayah",
+                    "Konflik politik dengan pihak Muawiyah bin Abu Sufyan di tepi Sungai Efrat",
+                    "Aliran yang keluar dari barisan Ali setelah peristiwa Tahkim (arbitrase)"
+                ],
+                answer: [0, 1, 2]
+            },
+            {
+                id: 35, type: "matching", level: "LOTS", bab: 2,
+                stimulus: "Hikmah peristiwa hijrah bagi umat Islam.",
+                question: "Jodohkan hikmah hijrah berikut dengan aspek kehidupannya:",
+                pairs: [
+                    { premise: "Aspek Spiritual", target: "Ketaatan total kepada perintah Allah SWT demi menegakkan agama" },
+                    { premise: "Aspek Sosial", target: "Terbentuknya persaudaraan yang erat antara golongan pendatang dan penolong" },
+                    { premise: "Aspek Strategis", target: "Terwujudnya basis kekuatan politik dan pertahanan umat yang mandiri" }
+                ],
+                options: [
+                    "Ketaatan total kepada perintah Allah SWT demi menegakkan agama",
+                    "Terbentuknya persaudaraan yang erat antara golongan pendatang dan penolong",
+                    "Terwujudnya basis kekuatan politik dan pertahanan umat yang mandiri"
+                ],
+                answer: [0, 1, 2]
+            },
+
+            // SOAL URAIAN (36 - 40)
+            {
+                id: 36, type: "essay", level: "HOTS", bab: 1,
+                stimulus: "Masyarakat Arab Jahiliyah sebelum Islam sangat terikat dengan fanatisme kabilah (ashobiyah) yang kerap memicu perang antarsuku selama puluhan tahun.",
+                question: "Jelaskan secara ringkas bagaimana kondisi sosial dan keagamaan masyarakat Jazirah Arab secara umum sebelum kedatangan Islam!",
+                answerKey: "Kondisi sosial diwarnai fanatisme suku (ashobiyah), perbudakan merajalela, dan perempuan direndahkan. Kondisi keagamaan sebagian besar menyembah berhala (paganisme), sebagian kecil beragama Yahudi, Nasrani, atau Hanif (pengikut ajaran Nabi Ibrahim)."
+            },
+            {
+                id: 37, type: "essay", level: "HOTS", bab: 1,
+                stimulus: "Strategi dakwah Nabi Muhammad SAW di Makkah dilakukan secara bertahap dengan penuh ketabahan dan hikmah.",
+                question: "Sebutkan dan jelaskan dua tahap utama strategi dakwah yang dilakukan Nabi Muhammad SAW saat berada di Makkah!",
+                answerKey: "1. Dakwah secara sembunyi-sembunyi (sirriyah) selama 3 tahun kepada keluarga terdekat. 2. Dakwah secara terang-terangan (jahriyah) kepada masyarakat luas di Makkah setelah turun perintah Allah SWT."
+            },
+            {
+                id: 38, type: "essay", level: "HOTS", bab: 2,
+                stimulus: "Peristiwa hijrah ke Yatsrib mengubah nama kota tersebut menjadi Madinah al-Munawwarah dan melahirkan Piagam Madinah.",
+                question: "Sebutkan tiga pilar utama kebijakan yang dilakukan Nabi Muhammad SAW dalam membangun masyarakat Madinah yang berperadaban!",
+                answerKey: "1. Membangun Masjid Nabawi sebagai pusat ibadah dan sosial. 2. Mempersaudarakan kaum Muhajirin dan Anshar (Ukhuwah Islamiyah). 3. Membuat konstitusi Piagam Madinah untuk mengatur hubungan antar-kelompok masyarakat."
+            },
+            {
+                id: 39, type: "essay", level: "HOTS", bab: 3,
+                stimulus: "Khulafaurrasyidin memegang kepemimpinan umat Islam dengan karakter kepemimpinan yang adil dan demokratis.",
+                question: "Jelaskan kontribusi atau prestasi terbesar dari Khalifah Abu Bakar Ash-Shiddiq dan Khalifah Umar bin Khattab!",
+                answerKey: "Abu Bakar berjasa dalam memerangi kaum murtad dan memelopori pengumpulan lembaran Al-Qur'an. Umar bin Khattab berjasa dalam perluasan wilayah Islam, pembentukan administrasi negara (Baitul Mal), serta penetapan Kalender Hijriyah."
+            },
+            {
+                id: 40, type: "essay", level: "HOTS", bab: 3,
+                stimulus: "Kodifikasi Al-Qur'an dan penguatan armada laut menjadi warisan penting khalifah ketiga dan keempat.",
+                question: "Apa latar belakang penting dilakukannya kodifikasi Al-Qur'an pada masa Khalifah Utsman bin Affan (Mushaf Utsmani)?",
+                answerKey: "Latar belakangnya adalah adanya perselisihan bacaan (dialek) Al-Qur'an di kalangan tentara Islam dari berbagai wilayah saat ekspedisi militer, sehingga dikhawatirkan terjadi perpecahan umat Islam jika tidak segera diseragamkan dalam satu mushaf standar resmi."
+            }
+        ];
+
+        // --- LOCAL STORAGE STATE MANAGEMENT ---
+        let questions = JSON.parse(localStorage.getItem('mtss_ski_questions')) || defaultQuestions;
+        let studentAttempts = JSON.parse(localStorage.getItem('mtss_ski_attempts')) || {}; // { username_class: count }
+        let studentScores = JSON.parse(localStorage.getItem('mtss_ski_scores')) || []; // [{name, class, no, score, status, date}]
+        let adminPass = localStorage.getItem('mtss_ski_admin_pass') || 'admin123';
+        let brandLogo = localStorage.getItem('mtss_ski_logo') || '';
+
+        // Active Session State
+        let currentRole = null; // 'student' or 'admin'
+        let currentStudent = { name: '', class: '', number: '' };
+        let currentQuestionIndex = 0;
+        let userAnswers = {}; // { qId: answerValue }
+        let examTimer = null;
+        let timeLeft = 3600; // 60 minutes in seconds
+
+        // Initialize App on Load
+        window.onload = function() {
+            if (brandLogo) {
+                document.getElementById('brand-logo-container').innerHTML = `<img src="${brandLogo}" class="w-full h-full object-cover rounded-xl" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\"fa-solid fa-mosque text-emerald-200\"></i>';">`;
+            }
+            switchTab('student');
+        };
+
+        // --- AUTH & TAB SWITCHING ---
+        function switchTab(role) {
+            const studentBtn = document.getElementById('tab-btn-student');
+            const adminBtn = document.getElementById('tab-btn-admin');
+            const studentForm = document.getElementById('form-student');
+            const adminForm = document.getElementById('form-admin');
+
+            if (role === 'student') {
+                studentBtn.className = "flex-1 py-2 text-xs sm:text-sm font-semibold rounded-lg transition bg-white text-emerald-800 shadow-sm";
+                adminBtn.className = "flex-1 py-2 text-xs sm:text-sm font-semibold rounded-lg transition text-slate-500 hover:text-slate-800";
+                studentForm.classList.remove('hidden');
+                adminForm.classList.add('hidden');
+            } else {
+                adminBtn.className = "flex-1 py-2 text-xs sm:text-sm font-semibold rounded-lg transition bg-white text-emerald-800 shadow-sm";
+                studentBtn.className = "flex-1 py-2 text-xs sm:text-sm font-semibold rounded-lg transition text-slate-500 hover:text-slate-800";
+                adminForm.classList.remove('hidden');
+                studentForm.classList.add('hidden');
+            }
+        }
+
+        function loginStudent() {
+            const name = document.getElementById('student-name').value.trim();
+            const cls = document.getElementById('student-class').value;
+            const number = document.getElementById('student-number').value.trim();
+
+            if (!name || !number) {
+                showModal("Peringatan", "Nama lengkap dan nomor presensi (password) wajib diisi!", "warning");
+                return;
+            }
+
+            const studentKey = `${name}_${cls}_${number}`;
+            const attempts = studentAttempts[studentKey] || 0;
+
+            if (attempts >= 2) {
+                showModal("Batas Maksimal", "Maaf, Anda telah menggunakan batas maksimal 2 kali kesempatan pengerjaan asesmen ini.", "error");
+                return;
+            }
+
+            currentRole = 'student';
+            currentStudent = { name, class: cls, number };
+            studentAttempts[studentKey] = attempts + 1;
+            localStorage.setItem('mtss_ski_attempts', JSON.stringify(studentAttempts));
+
+            // Setup Dashboard View
+            document.getElementById('view-login').classList.add('hidden');
+            document.getElementById('view-student-dashboard').classList.remove('hidden');
+            document.getElementById('dash-name').innerText = name;
+            document.getElementById('dash-class').innerText = cls;
+            document.getElementById('dash-no').innerText = number;
+            document.getElementById('remaining-attempts',).innerText = (2 - studentAttempts[studentKey]);
+
+            // Header info
+            document.getElementById('header-user-info').classList.remove('hidden');
+            document.getElementById('user-badge').innerText = `${name} (${cls})`;
+        }
+
+        function loginAdmin() {
+            const user = document.getElementById('admin-user-input').value.trim();
+            const pass = document.getElementById('admin-pass-input').value.trim();
+
+            if (user === 'admin' && pass === adminPass) {
+                currentRole = 'admin';
+                document.getElementById('view-login').classList.add('hidden');
+                document.getElementById('view-admin-dashboard').classList.remove('hidden');
+                document.getElementById('header-user-info').classList.remove('hidden');
+                document.getElementById('user-badge').innerText = `Admin / Guru (Amirotul Kayyisah, S.Pd.)`;
+                loadAdminScores();
+                loadAdminQuestions();
+            } else {
+                showModal("Gagal Masuk", "Username atau password admin salah!", "error");
+            }
+        }
+
+        function logout() {
+            clearInterval(examTimer);
+            currentRole = null;
+            currentStudent = { name: '', class: '', number: '' };
+            userAnswers = {};
+            currentQuestionIndex = 0;
+
+            // Hide all views
+            document.getElementById('view-student-dashboard').classList.add('hidden');
+            document.getElementById('view-exam-room').classList.add('hidden');
+            document.getElementById('view-result').classList.add('hidden');
+            document.getElementById('view-admin-dashboard').classList.add('hidden');
+            document.getElementById('header-user-info').classList.add('hidden');
+            
+            // Show login view
+            document.getElementById('view-login').classList.remove('hidden');
+            document.getElementById('student-name').value = '';
+            document.getElementById('student-number').value = '';
+            document.getElementById('admin-user-input').value = '';
+            document.getElementById('admin-pass-input').value = '';
+        }
+
+        // --- EXAM EXECUTION & TIMER ---
+        function startExam() {
+            document.getElementById('view-student-dashboard').classList.add('hidden');
+            document.getElementById('view-exam-room').classList.remove('hidden');
+            document.getElementById('exam-student-title').innerText = `${currentStudent.name} (${currentStudent.class} - No. ${currentStudent.number})`;
+
+            currentQuestionIndex = 0;
+            userAnswers = {};
+            timeLeft = 3600; // 60 minutes
+            startTimer();
+            renderQuestion();
+            renderNavGrid();
+        }
+
+        function startTimer() {
+            clearInterval(examTimer);
+            examTimer = setInterval(() => {
+                timeLeft--;
+                let m = Math.floor(timeLeft / 60);
+                let s = timeLeft % 60;
+                document.getElementById('timer-display').innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+
+                if (timeLeft <= 0) {
+                    clearInterval(examTimer);
+                    showModal("Waktu Habis", "Waktu pengerjaan asesmen telah habis. Jawaban akan dikumpulkan otomatis.", "warning");
+                    submitExam();
+                }
+            }, 1000);
+        }
+
+        function renderQuestion() {
+            const q = questions[currentQuestionIndex];
+            document.getElementById('current-q-num').innerText = currentQuestionIndex + 1;
+            
+            // Type badge
+            let typeLabel = "Pilihan Ganda";
+            if (q.type === 'complex') typeLabel = "PG Kompleks (Banyak)";
+            if (q.type === 'matching') typeLabel = "Menjodohkan";
+            if (q.type === 'essay') typeLabel = "Uraian";
+            document.getElementById('question-type-badge').innerText = typeLabel;
+
+            // Level badge
+            const levelBadge = document.getElementById('question-level-badge');
+            levelBadge.innerText = q.level;
+            if (q.level === 'LOTS') levelBadge.className = "px-2.5 py-0.5 rounded text-[11px] font-bold uppercase bg-blue-100 text-blue-800";
+            else if (q.level === 'MOTS') levelBadge.className = "px-2.5 py-0.5 rounded text-[11px] font-bold uppercase bg-amber-100 text-amber-800";
+            else levelBadge.className = "px-2.5 py-0.5 rounded text-[11px] font-bold uppercase bg-purple-100 text-purple-800";
+
+            // Stimulus
+            const stimBox = document.getElementById('stimulus-box');
+            if (q.stimulus) {
+                stimBox.classList.remove('hidden');
+                document.getElementById('stimulus-text').innerText = q.stimulus;
+            } else {
+                stimBox.classList.add('hidden');
+            }
+
+            document.getElementById('question-stem').innerText = q.question;
+
+            // Render options based on type
+            const container = document.getElementById('answer-options-container');
+            container.innerHTML = '';
+
+            if (q.type === 'mc') {
+                q.options.forEach((opt, idx) => {
+                    const isSelected = userAnswers[q.id] === idx;
+                    container.innerHTML += `
+                        <label class="flex items-start p-3.5 rounded-xl border ${isSelected ? 'border-emerald-600 bg-emerald-50/50' : 'border-slate-200 hover:bg-slate-50'} cursor-pointer transition">
+                            <input type="radio" name="q_${q.id}" value="${idx}" ${isSelected ? 'checked' : ''} onchange="saveAnswer(${q.id}, ${idx})" class="mt-1 text-emerald-600 focus:ring-emerald-500">
+                            <span class="ml-3 text-sm font-medium text-slate-700"><strong class="mr-2">${String.fromCharCode(65 + idx)}.</strong> ${opt}</span>
+                        </label>
+                    `;
+                });
+            } else if (q.type === 'complex') {
+                const currentSelected = userAnswers[q.id] || [];
+                q.options.forEach((opt, idx) => {
+                    const isChecked = currentSelected.includes(idx);
+                    container.innerHTML += `
+                        <label class="flex items-start p-3.5 rounded-xl border ${isChecked ? 'border-emerald-600 bg-emerald-50/50' : 'border-slate-200 hover:bg-slate-50'} cursor-pointer transition">
+                            <input type="checkbox" value="${idx}" ${isChecked ? 'checked' : ''} onchange="saveComplexAnswer(${q.id}, ${idx})" class="mt-1 rounded text-emerald-600 focus:ring-emerald-500">
+                            <span class="ml-3 text-sm font-medium text-slate-700"><strong class="mr-2">${String.fromCharCode(65 + idx)}.</strong> ${opt}</span>
+                        </label>
+                    `;
+                });
+            } else if (q.type === 'matching') {
+                const currentMatching = userAnswers[q.id] || {};
+                q.pairs.forEach((pair, pIdx) => {
+                    const selectedVal = currentMatching[pIdx] !== undefined ? currentMatching[pIdx] : "";
+                    let optionsHTML = `<option value="">-- Pilih Pasangan --</option>`;
+                    q.options.forEach((targetOpt, tIdx) => {
+                        optionsHTML += `<option value="${tIdx}" ${selectedVal === tIdx ? 'selected' : ''}>${targetOpt}</option>`;
+                    });
+                    container.innerHTML += `
+                        <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
+                            <div class="text-xs font-bold text-slate-700">${pIdx + 1}. Premis: ${pair.premise}</div>
+                            <select onchange="saveMatchingAnswer(${q.id}, ${pIdx}, this.value)" class="w-full p-2.5 rounded-lg border border-slate-200 text-xs bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                                ${optionsHTML}
+                            </select>
+                        </div>
+                    `;
+                });
+            } else if (q.type === 'essay') {
+                const essayVal = userAnswers[q.id] || '';
+                container.innerHTML = `
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-2 uppercase tracking-wider">Jawaban Uraian</label>
+                        <textarea rows="5" oninput="saveEssayAnswer(${q.id}, this.value)" placeholder="Tuliskan jawaban uraian Anda di sini..." class="w-full p-3.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">${essayVal}</textarea>
+                    </div>
+                `;
+            }
+
+            // Buttons state
+            document.getElementById('btn-prev').disabled = currentQuestionIndex === 0;
+            const nextBtn = document.getElementById('btn-next');
+            if (currentQuestionIndex === questions.length - 1) {
+                nextBtn.innerHTML = `<span>Selesai</span> <i class="fa-solid fa-check ml-1"></i>`;
+                nextBtn.onclick = confirmSubmitExam;
+            } else {
+                nextBtn.innerHTML = `<span>Berikutnya</span> <i class="fa-solid fa-arrow-right ml-1"></i>`;
+                nextBtn.onclick = nextQuestion;
+            }
+
+            renderNavGrid();
+        }
+
+        function saveAnswer(qId, val) {
+            userAnswers[qId] = val;
+            updateAnsweredCount();
+            renderNavGrid();
+        }
+
+        function saveComplexAnswer(qId, idx) {
+            if (!userAnswers[qId]) userAnswers[qId] = [];
+            let arr = userAnswers[qId];
+            if (arr.includes(idx)) {
+                arr = arr.filter(item => item !== idx);
+            } else {
+                arr.push(idx);
+            }
+            userAnswers[qId] = arr;
+            updateAnsweredCount();
+            renderNavGrid();
+        }
+
+        function saveMatchingAnswer(qId, pIdx, val) {
+            if (!userAnswers[qId]) userAnswers[qId] = {};
+            userAnswers[qId][pIdx] = val === "" ? "" : parseInt(val);
+            updateAnsweredCount();
+            renderNavGrid();
+        }
+
+        function saveEssayAnswer(qId, val) {
+            userAnswers[qId] = val;
+            updateAnsweredCount();
+            renderNavGrid();
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                renderQuestion();
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                renderQuestion();
+            }
+        }
+
+        function goToQuestion(idx) {
+            currentQuestionIndex = idx;
+            renderQuestion();
+        }
+
+        function renderNavGrid() {
+            const grid = document.getElementById('q-nav-grid');
+            grid.innerHTML = '';
+            questions.forEach((q, idx) => {
+                let isAns = false;
+                if (userAnswers[q.id] !== undefined && userAnswers[q.id] !== "" && !(Array.isArray(userAnswers[q.id]) && userAnswers[q.id].length === 0)) {
+                    isAns = true;
+                }
+                const isCurrent = currentQuestionIndex === idx;
+
+                let bgClass = isAns ? "bg-emerald-600 text-white font-bold" : "bg-slate-100 text-slate-700 hover:bg-slate-200";
+                if (isCurrent) bgClass += " ring-2 ring-emerald-800 ring-offset-2";
+
+                grid.innerHTML += `
+                    <button onclick="goToQuantum(${idx})" class="h-9 rounded-lg text-xs font-semibold transition flex items-center justify-center ${bgClass}">
+                        ${idx + 1}
+                    </button>
+                `;
+            });
+            updateAnsweredCount();
+        }
+
+        function goToQuantum(idx) {
+            currentQuestionIndex = idx;
+            renderQuestion();
+        }
+
+        function updateAnsweredCount() {
+            let count = 0;
+            questions.forEach(q => {
+                if (userAnswers[q.id] !== undefined && userAnswers[q.id] !== "" && !(Array.isArray(userAnswers[q.id]) && userAnswers[q.id].length === 0)) {
+                    count++;
+                }
+            });
+            document.getElementById('answered-counter').innerText = `${count} / 40 Dijawab`;
+        }
+
+        function confirmSubmitExam() {
+            clearInterval(examTimer);
+            showConfirmationModal("Konfirmasi Pengumpulan", "Apakah Anda yakin ingin menyelesaikan dan mengumpulkan jawaban asesmen ini?", () => {
+                submitExam();
+            });
+        }
+
+        function submitExam() {
+            clearInterval(examTimer);
+            // Scoring algorithm
+            let correctCount = 0;
+            let totalQ = questions.length;
+
+            questions.forEach(q => {
+                const userAns = userAnswers[q.id];
+                if (q.type === 'mc') {
+                    if (userAns !== undefined && parseInt(userAns) === q.answer) {
+                        correctCount++;
+                    }
+                } else if (q.type === 'complex') {
+                    if (Array.isArray(userAns)) {
+                        // Compare arrays
+                        const correctArr = q.answer.slice().sort();
+                        const userArr = userAns.slice().sort();
+                        if (JSON.stringify(correctArr) === JSON.stringify(userArr)) {
+                            correctCount++;
+                        }
+                    }
+                } else if (q.type === 'matching') {
+                    if (typeof userAns === 'object' && userAns !== null) {
+                        let allMatch = true;
+                        q.answer.forEach((ansIdx, pIdx) => {
+                            if (userAns[pIdx] !== ansIdx) allMatch = false;
+                        });
+                        if (allMatch) correctCount++;
+                    }
+                } else if (q.type === 'essay') {
+                    // Essay auto-check rudimentary keyword or awarded if filled
+                    if (userAns && userAns.trim().length > 5) {
+                        correctCount++; // Automated baseline grading for essay length/answer
+                    }
+                }
+            });
+
+            const finalScore = Math.round((correctCount / totalQ) * 100);
+            const isPassed = finalScore >= 80;
+            const statusStr = isPassed ? "LULUS (TUNTAS)" : "BELUM TUNTAS";
+
+            // Save to scores array
+            const resultRecord = {
+                name: currentStudent.name,
+                class: currentStudent.class,
+                no: currentStudent.number,
+                score: finalScore,
+                status: statusStr,
+                date: new Date().toLocaleDateString('id-ID')
+            };
+
+            studentScores.push(resultRecord);
+            localStorage.setItem('mtss_ski_scores', JSON.stringify(studentScores));
+
+            // Render Result View
+            document.getElementById('view-exam-room').classList.add('hidden');
+            document.getElementById('view-result').classList.remove('hidden');
+            document.getElementById('res-name').innerText = currentStudent.name;
+            document.getElementById('res-class-no').innerText = `${currentStudent.class} / No. ${currentStudent.number}`;
+            document.getElementById('res-score').innerText = finalScore;
+            
+            const statusEl = document.getElementById('res-status');
+            statusEl.innerText = statusStr;
+            statusEl.className = isPassed ? "text-lg font-bold text-emerald-600 mt-1 block" : "text-lg font-bold text-rose-600 mt-1 block";
+        }
+
+        function downloadResultPDF() {
+            const element = document.getElementById('result-card-printable');
+            const opt = {
+                margin:        10,
+                filename:      `Sertifikat_Nilai_ASAS_SKI_${currentStudent.name.replace(/\s+/g, '_')}.pdf`,
+                image:         { type: 'jpeg', quality: 0.98 },
+                html2canvas:   { scale: 2 },
+                jsPDF:         { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            html2pdf().from(element).set(opt).save();
+        }
+
+        // --- ADMIN DASHBOARD FUNCTIONS ---
+        function switchAdminTab(tab) {
+            const btnScores = document.getElementById('adm-tab-scores');
+            const btnQuestions = document.getElementById('adm-tab-questions');
+            const contentScores = document.getElementById('adm-content-scores');
+            const contentQuestions = document.getElementById('adm-content-questions');
+
+            if (tab === 'scores') {
+                btnScores.className = "px-4 py-2 text-xs sm:text-sm font-semibold rounded-xl bg-white text-emerald-800 shadow-sm transition";
+                btnQuestions.className = "px-4 py-2 text-xs sm:text-sm font-semibold rounded-xl text-slate-500 hover:text-slate-800 transition";
+                contentScores.classList.remove('hidden');
+                contentQuestions.classList.add('hidden');
+                loadAdminScores();
+            } else {
+                btnQuestions.className = "px-4 py-2 text-xs sm:text-sm font-semibold rounded-xl bg-white text-emerald-800 shadow-sm transition";
+                btnScores.className = "px-4 py-2 text-xs sm:text-sm font-semibold rounded-xl text-slate-500 hover:text-slate-800 transition";
+                contentQuestions.classList.remove('hidden');
+                contentScores.classList.add('hidden');
+                loadAdminQuestions();
+            }
+        }
+
+        function loadAdminScores() {
+            document.getElementById('stat-total-students').innerText = studentScores.length;
+            let totalSum = studentScores.reduce((acc, curr) => acc + curr.score, 0);
+            let avg = studentScores.length > 0 ? (totalSum / studentScores.length).toFixed(1) : 0;
+            document.getElementById('stat-avg-score').innerText = avg;
+
+            const tbody = document.getElementById('scores-table-body');
+            tbody.innerHTML = '';
+
+            if (studentScores.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-400">Belum ada siswa yang menyelesaikan asesmen.</td></tr>`;
+                return;
+            }
+
+            studentScores.forEach((s, idx) => {
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50 transition">
+                        <td class="p-3">${idx + 1}</td>
+                        <td class="p-3 font-semibold">${s.name}</td>
+                        <td class="p-3">${s.class}</td>
+                        <td class="p-3">${s.no}</td>
+                        <td class="p-3 font-bold text-emerald-700">${s.score}</td>
+                        <td class="p-3"><span class="px-2 py-1 rounded text-xs font-semibold ${s.score >= 80 ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">${s.status}</span></td>
+                        <td class="p-3">
+                            <button onclick="deleteScoreRecord(${idx})" class="text-rose-500 hover:text-rose-700 p-1"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function deleteScoreRecord(idx) {
+            studentScores.splice(idx, 1);
+            localStorage.setItem('mtss_ski_scores', JSON.stringify(studentScores));
+            loadAdminScores();
+        }
+
+        function exportScoresCSV() {
+            let csvContent = "data:text/csv;charset=utf-8,No,Nama Siswa,Kelas,No Presensi,Nilai,Status,Tanggal\n";
+            studentScores.forEach((s, idx) => {
+                csvContent += `${idx + 1},"${s.name}",${s.class},${s.no},${s.score},"${s.status}",${s.date}\n`;
+            });
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "Rekap_Nilai_ASAS_SKI_Kelas_VII.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function loadAdminQuestions() {
+            const listContainer = document.getElementById('admin-questions-list');
+            listContainer.innerHTML = '';
+
+            questions.forEach((q, idx) => {
+                listContainer.innerHTML += `
+                    <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold text-emerald-800 uppercase">Soal No. ${idx + 1} (${q.type.toUpperCase()} - ${q.level})</span>
+                            <span class="text-xs text-slate-500">Bab ${q.bab}</span>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-semibold text-slate-500 mb-1">Pertanyaan / Soal</label>
+                            <input type="text" id="q_stem_${idx}" value="${q.question}" class="w-full p-2 rounded-lg border border-slate-200 text-xs bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        </div>
+                        <div class="flex justify-end">
+                            <button onclick="updateQuestionStem(${idx})" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs px-3 py-1.5 rounded-lg transition font-medium">
+                                Simpan Perubahan Soal
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function updateQuestionStem(idx) {
+            const newVal = document.getElementById(`q_stem_${idx}`).value.trim();
+            if (newVal) {
+                questions[idx].question = newVal;
+                localStorage.setItem('mtss_ski_questions', JSON.stringify(questions));
+                showModal("Berhasil", `Soal nomor ${idx + 1} berhasil diperbarui!`, "success");
+            }
+        }
+
+        function adminActionTestAsStudent() {
+            // Test as student simulation
+            currentStudent = { name: "Uji Coba (Guru/Admin)", class: "VII-A", number: "99" };
+            currentRole = 'student';
+            document.getElementById('view-admin-dashboard').classList.add('hidden');
+            document.getElementById('view-exam-room').classList.remove('hidden');
+            document.getElementById('exam-student-title',).innerText = `${currentStudent.name} (${currentStudent.class})`;
+            document.getElementById('header-user-info').classList.remove('hidden');
+            document.getElementById('user-badge').innerText = `${currentStudent.name}`;
+
+            currentQuestionIndex = 0;
+            userAnswers = {};
+            timeLeft = 3600;
+            startTimer();
+            renderQuestion();
+            renderNavGrid();
+        }
+
+        function openAdminSettingsModal() {
+            document.getElementById('admin-settings-modal').classList.remove('hidden');
+            document.getElementById('new-admin-pass').value = '';
+            document.getElementById('new-logo-url').value = brandLogo;
+        }
+
+        function closeAdminSettingsModal() {
+            document.getElementById('admin-settings-modal').classList.add('hidden');
+        }
+
+        function saveAdminSettings() {
+            const newPass = document.getElementById('new-admin-pass').value.trim();
+            const newLogo = document.getElementById('new-logo-url').value.trim();
+
+            if (newPass) {
+                adminPass = newPass;
+                localStorage.setItem('mtss_ski_admin_pass', adminPass);
+            }
+
+            if (newLogo !== undefined) {
+                brandLogo = newLogo;
+                localStorage.setItem('mtss_ski_logo', brandLogo);
+                if (brandLogo) {
+                    document.getElementById('brand-logo-container').innerHTML = `<img src="${brandLogo}" class="w-full h-full object-cover rounded-xl" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\"fa-solid fa-mosque text-emerald-200\"></i>';">`;
+                }
+            }
+
+            closeAdminSettingsModal();
+            showModal("Berhasil", "Pengaturan admin dan logo berhasil diperbarui!", "success");
+        }
+
+        // --- CUSTOM MODAL HELPER ---
+        function showModal(title, message, type = "success") {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-message').innerText = message;
+            
+            const iconContainer = document.getElementById('modal-icon-container');
+            const icon = document.getElementById('modal-icon');
+
+            if (type === "success") {
+                iconContainer.className = "w-12 h-12 rounded-full mx-auto flex items-center justify-center text-xl font-bold bg-emerald-100 text-emerald-700";
+                icon.className = "fa-solid fa-check";
+            } else if (type === "warning") {
+                iconContainer.className = "w-12 h-12 rounded-full mx-auto flex items-center justify-center text-xl font-bold bg-amber-100 text-amber-700";
+                icon.className = "fa-solid fa-triangle-exclamation";
+            } else {
+                iconContainer.className = "w-12 h-12 rounded-full mx-auto flex items-center justify-center text-xl font-bold bg-rose-100 text-rose-700";
+                icon.className = "fa-solid fa-xmark";
+            }
+
+            document.getElementById('app-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('app-modal').classList.add('hidden');
+        }
+
+        function showConfirmationModal(title, message, onConfirmCallback) {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-message').innerText = message;
+            
+            const iconContainer = document.getElementById('modal-icon-container');
+            iconContainer.className = "w-12 h-12 rounded-full mx-auto flex items-center justify-center text-xl font-bold bg-emerald-100 text-emerald-700";
+            document.getElementById('modal-icon').className = "fa-solid fa-circle-question";
+
+            // Override button action
+            const okBtn = document.querySelector('#app-modal button');
+            okBtn.onclick = function() {
+                closeModal();
+                onConfirmCallback();
+            };
+
+            document.getElementById('app-modal').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
